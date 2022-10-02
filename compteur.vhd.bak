@@ -1,0 +1,70 @@
+--
+-- Compteur + affichage sur LCD DISPLAY 5611AH à cathode commune
+--
+-- Mehdi Ben Djedidia 10/09/2022
+--
+--			A
+--		   _
+--		F | |B
+--			G
+--			_
+--		 E| | C
+--			_
+--			D
+--
+-- rappel du codage binaire BCD
+
+--	0	0000
+--	1	0001
+--	2	0010
+--	3	0011
+--	4	0100
+--	5	0101
+--	6	0110
+--	7	0111
+--	8	1000
+--	9	1001
+--
+-- pin out du 5611AH
+--
+--   10 9 8 7 6
+--
+--			A
+--		   _
+--		F | |B
+--			G
+--			_
+--		 E| | C
+--			_ .
+--			D
+-- 
+--   1 2 3 4 5
+--
+
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity LED_DISPLAY is port
+(
+	N : in std_logic_vector(3 downto 0);	-- nombre codé binaire 0 (0000) à 9 (1000)
+	A, B, C, D, E, F, G : out std_logic	-- segments led de l'afficheur
+);
+end;
+
+
+architecture LED_DISPLAY_ARCHITECTURE of LED_DISPLAY is
+begin
+
+-- on allume les segments A à G en fonction du nombre N
+A <= '1' when (N="0000" or N="0010" or N="0011" or N="0101" or N="0110" or N="0111" or N="1000" or N="1001") else '0';
+B <= '1' when (N="0000" or N="0001" or N="0010" or N="0011" or N="0100" or N="0111" or N="1000" or N="1001") else '0';
+C <= '1' when (N="0000" or N="0001" or N="0011" or N="0100" or N="0101" or N="0110" or N="0111" or N="1000" or N="1001") else '0';
+D <= '1' when (N="0000" or N="0010" or N="0011" or N="0101" or N="0110" or N="1000" or N="1001") else '0';
+E <= '1' when (N="0000" or N="0010" or N="0110" or N="1000") else '0';
+F <= '1' when (N="0000" or N="0100" or N="0101" or N="0110" or N="1000" or N="1001") else '0';
+G <= '1' when (N="0010" or N="0011" or N="0100" or N="0101" or N="0110" or N="1000" or N="1001") else '0';
+
+
+end LED_DISPLAY_ARCHITECTURE;
+
